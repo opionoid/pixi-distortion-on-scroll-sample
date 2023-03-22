@@ -1,9 +1,8 @@
 import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import * as PIXI from "pixi.js";
-import { DisplacementFilter } from "pixi.js";
 import { ShockwaveFilter } from "@pixi/filter-shockwave";
-import { ICanvas } from "pixi.js";
+import { Filter } from "pixi.js";
 
 const SAMPLE_DATA_LIST = [
   {
@@ -37,7 +36,7 @@ export default function Home() {
       antialias: true,
       backgroundAlpha: 0,
       resizeTo: window,
-      view: document.querySelector("canvas") as ICanvas,
+      view: document.querySelector("canvas") as HTMLCanvasElement
     });
 
     app.renderer.plugins.interaction.autoPreventDefault = false;
@@ -72,7 +71,7 @@ export default function Home() {
       const filterTexture = PIXI.Texture.from(
         "https://picsum.photos/id/404/812/600"
       );
-      const displacementFilter = new DisplacementFilter(
+      const displacementFilter = new PIXI.filters.DisplacementFilter(
         new PIXI.Sprite(filterTexture),
         0
       );
@@ -104,7 +103,7 @@ export default function Home() {
 
       container.addChild(imageSprite);
       container.addChild(borderSprite);
-      container.filters = [shockwaveFilter, displacementFilter];
+      container.filters = [shockwaveFilter, displacementFilter] as Filter[];
       app.stage.addChild(container);
 
       return container;
